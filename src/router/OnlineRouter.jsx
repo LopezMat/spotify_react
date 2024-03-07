@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../screens/ErrorPage";
+import ErrorPage from "../screens/ErrorScreens/ErrorPage";
 import App from "../App";
-import Home from "../screens/Home";
-import Search from "../screens/Search";
-import Library from "../screens/Library";
-import Whishlist from "../screens/Whishlist";
-import Playlist from "../screens/Playlist";
+import Home from "../screens/OnlineScreens/Home";
+import Search from "../screens/OnlineScreens/Search";
+import Library from "../screens/OnlineScreens/Library";
+import Whishlist from "../screens/OnlineScreens/Whishlist";
+import Playlist from "../screens/OnlineScreens/Playlist";
 
-const MainRouter = createBrowserRouter([
+const OnlineRouter = createBrowserRouter([
     {
         element: (
             <>
@@ -42,4 +42,4 @@ const MainRouter = createBrowserRouter([
     }
 ])
 
-export default MainRouter
+export default OnlineRouter

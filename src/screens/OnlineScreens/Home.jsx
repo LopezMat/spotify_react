@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAlbums } from '../redux/album/albumSlice';
-import { selectAlbumsData } from '../redux/album/albumSelector';
-import PageLoader from '../components/loader/PageLoader';
+import { fetchAlbums } from '../../redux/album/albumSlice';
+import { selectAlbumsData } from '../../redux/album/albumSelector';
+import PageLoader from '../../components/loader/PageLoader';
 
 const Home = () => {
     //on récupère le hook useDispatch de react-redux
