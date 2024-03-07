@@ -15,7 +15,7 @@ export default {
         green: 'rgba(30, 215, 96, 1)',
         green_08: 'rgba(30, 215, 96, 0.8)',
         green_06: 'rgba(30, 215, 96, 0.6)',
-        green_top: 'rgba(21, 173, 78, 1)',
+        green_top: 'rgba(26, 173, 78, 1)',
       }
     },
   },
