@@ -16,6 +16,16 @@ export default {
         green_08: 'rgba(30, 215, 96, 0.8)',
         green_06: 'rgba(30, 215, 96, 0.6)',
         green_top: 'rgba(26, 173, 78, 1)',
+      },
+      animation: {
+        slideup: 'slideup 1s ease-in-out',
+        slideup2: 'slideup 500ms ease-in-out',
+      },
+      keyframes: {
+        slideup: {
+          from: { opacity: 0, transform: 'translateY(25%)' },
+          to: { opacity: 1, transform: 'none' }
+        }
       }
     },
   },
