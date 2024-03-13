@@ -6,9 +6,8 @@ const Track = ({ isPlaying, isActive, activeSong, currentAlbum }) => {
     //on déclare nos constante
     //on récupère une image de l'album
     const imgPath = `${albumUrl}/${currentAlbum?.imagePath}`;
-    console.log(currentAlbum)
     const title = activeSong?.title ?? 'Titre inconnu';
-    const artist = activeSong?.artist?.name ?? 'Artiste inconnu';
+    const artist = currentAlbum?.artist?.name ?? 'Artiste inconnu';
     const album = currentAlbum?.title ?? 'Album inconnu'
 
 
