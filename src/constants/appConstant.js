@@ -6,9 +6,9 @@ import { MdFavoriteBorder } from 'react-icons/md';
 //on construit un 1er tableau pour notre navbar
 //1 pour la gestion des albums
 export const dataAlbumNav = [
-  {title: 'Accueil', path: '/', icon: AiOutlineHome},
-  {title: 'Rechercher', path: '/search', icon: AiOutlineSearch},
-  {title: 'Bibliothèque', path: '/library', icon: BiLibrary},
+  { title: 'Accueil', path: '/', icon: AiOutlineHome },
+  { title: 'Rechercher', path: '/search', icon: AiOutlineSearch },
+  { title: 'Bibliothèque', path: '/library', icon: BiLibrary },
 ];
 
 //on construit un 2ème tableau pour notre navbar
@@ -22,5 +22,7 @@ export const dataUserNav = [
 export const imgLogo = `${imageUrl}/logo.png`;
 
 //on définit du style pour les icones
-export const styleIcon = {width: '25px', height: '25px'};
-export const tableIcon = {width: '20px', height: '20px'};
+export const styleIcon = { width: '25px', height: '25px' };
+export const tableIcon = { width: '20px', height: '20px' };
+
+export const USER_INFO = 'userInfos';

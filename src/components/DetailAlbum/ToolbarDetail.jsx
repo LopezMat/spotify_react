@@ -6,26 +6,51 @@ import PlayPause from '../PlayPause';
 import { AiFillHeart, AiFillInfoCircle, AiOutlineHeart, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Collapse } from 'react-collapse';
 import InfoCollapse from './InfoCollapse';
+import { USER_INFO } from '../../constants/appConstant'
+import { fetchUserFavorite } from '../../redux/user/userSlice';
+import { selectUserData } from '../../redux/user/userSelector';
+import { fetchAddRemoveFavorite } from '../../services/userFavoritesService';
 
 const ToolbarDetail = ({ dataAlbum }) => {
   //on déclare nos constantes
   const data = dataAlbum;
   const songs = dataAlbum?.songs;
+  //on récupère l'id de l'album 
+  const albumId = dataAlbum?.id;
+  //on récupère l'id du user connecté
+  const userId = localStorage.getItem(USER_INFO)
+    ? JSON.parse(localStorage.getItem(USER_INFO)).userId
+    : null;
   //on déclare nos states
   const [index, setIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isInList, setIsInList] = useState(false);
+  const [listArray, setListArray] = useState([]);
 
   //on récupère les hooks
   const dispatch = useDispatch();
 
+  //on récupère les données des slices
+  const { isPlaying, activeSong } = useSelector(state => state.player);
+  const { loading, userFavorite } = useSelector(selectUserData);
+
   useEffect(() => {
+    dispatch(fetchUserFavorite(userId))
+    checkFavorite();
     setIsLoading(false);
   }, [])
 
-  //on récupère les données des slices
-  const { isPlaying, activeSong } = useSelector(state => state.player);
+  //méthode pour savoir si l'album est dans la liste de favoris
+  const checkFavorite = () => { //
+    if (userFavorite) { //si l'utilisateur a des favoris
+      const idArray = userFavorite.map((item) => `/api/albums/${item.id}`); //on les mets dans un tableau
+      setListArray([...new Set(idArray)]) //on ajoute en ecransant les doublons
+      if (idArray.includes(`/api/albums/${albumId}`)) setIsInList(true);
+
+    }
+  }
+
 
   //méthode lorsqu'on met pause
   const handlePauseClick = () => {
@@ -40,9 +65,25 @@ const ToolbarDetail = ({ dataAlbum }) => {
   }
 
   //méthode pour gérer le favorie
-  const toggleFavorite = () => {
+  const toggleFavorite = async () => {
     setIsInList(!isInList);
-    //TODO : enregistrer dans la base de donnée
+    //on vas créer une copie de l'array
+    let updatedListArray = [...listArray];
+
+    if (isInList) {
+      //suprimer l'id de l'album dans le tableau 
+      updatedListArray = listArray.filter((item) => item !== `/api/albums/${albumId}`);
+    } else {
+      //ajouter l'id de l'album dans le tableau 
+      updatedListArray.push(`/api/albums/${albumId}`);
+    }
+
+    //on appelle le service pour mettre a jour la liste d"e favoris dans la bdd
+    await fetchAddRemoveFavorite(updatedListArray, userId);
+
+    //on met à jour le state
+    setListArray(updatedListArray);
+
   }
 
   //méthode pour ouvrir ou fermer le collapse
@@ -54,8 +95,8 @@ const ToolbarDetail = ({ dataAlbum }) => {
   return (
     isLoading ? <PageLoader /> :
       <>
-        <div className='flex items-center ms-5'>
-          <div className='cursor-pointer me-3'>
+        <div className='flex items-center ml-5'>
+          <div className='cursor-pointer mr-3'>
             <PlayPause
               songs={songs}
               handlePause={handlePauseClick}
@@ -84,12 +125,13 @@ const ToolbarDetail = ({ dataAlbum }) => {
         {/* on récupère les infos du collapse */}
         <div>
           <Collapse isOpened={isCollapsed}>
-              {/* affichage du rendu du collapse */}
-              <InfoCollapse dataAlbum={dataAlbum} />
+            {/* affichage du rendu du collapse */}
+            <InfoCollapse dataAlbum={dataAlbum} />
           </Collapse>
         </div>
       </>
   )
 }
+
 
 export default ToolbarDetail

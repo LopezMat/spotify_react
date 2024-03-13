@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { USER_INFO } from "../constants/appConstant";
 
 //création du context d'authentification
 const AuthContext = createContext({
@@ -23,7 +24,7 @@ const AuthContextProvider = ({ children }) => {
       setUserId(user.userId)
       setEmail(user.email)
       setNickname(user.nickname)
-      localStorage.setItem('userInfos', JSON.stringify(user))
+      localStorage.setItem(USER_INFO, JSON.stringify(user))
     } catch (error) {
       throw new Error(`Erreur lors de la connexion : ${error}`)
     }
@@ -34,7 +35,7 @@ const AuthContextProvider = ({ children }) => {
       setUserId('')
       setEmail('')
       setNickname('')
-      localStorage.removeItem('userInfos')
+      localStorage.removeItem(USER_INFO)
     } catch (error) {
       throw new Error(`Erreur lors de la déconnexion : ${error}`)
     }
@@ -56,5 +57,5 @@ const AuthContextProvider = ({ children }) => {
 //création de notre propre hook pour utiliser le context d'authentification
 const useAuthContext = () => useContext(AuthContext)
 
-export {AuthContext, AuthContextProvider, useAuthContext}
+export { AuthContext, AuthContextProvider, useAuthContext }
 
