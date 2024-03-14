@@ -9,7 +9,8 @@ const albumSlice = createSlice({
   initialState: {
     albums: [], //on initialise un tableau vide pour stocker la futur liste d'albums
     loading: false,// on initialise le state loading à false pour pouvoir gérer l'attente des requetes asynchrone
-    albumDetail: {},
+    albumDetail: {}, //on initialise un objet vide pour stocker la futur liste d'albums
+    searchAlbums: [] //on initialise un tableau vide pour stocker la futur liste d'albums
   },
   //methode qui permet de remplir les states (mise en rayon)
   reducers: {
@@ -21,11 +22,14 @@ const albumSlice = createSlice({
     },
     setAlbumDetail: (state, action) => {
       state.albumDetail = action.payload
+    },
+    setSearchAlbums: (state, action) => {
+      state.searchAlbums = action.payload
     }
   }
 });
 
-export const { setAlbums, setLoading, setAlbumDetail } = albumSlice.actions;
+export const { setAlbums, setLoading, setAlbumDetail, setSearchAlbums } = albumSlice.actions;
 
 //on crée la méthode qui permet de récupérer les données des albums de la BDD
 export const fetchAlbums = () => async dispatch => {
@@ -57,6 +61,22 @@ export const fetchAlbumDetail = (id) => async dispatch => {
     dispatch(setLoading(false));
   } catch (error) {
     console.log(`Erreur sur fetchAlbumDetail: ${error}`);
+    dispatch(setLoading(false));
+  }
+}
+
+//on crée la méthode qui permet de rechercher des albums dans la BDD
+export const fetchSearch = (searchWord) => async dispatch => {
+  try {
+    dispatch(setLoading(true));
+    const responseAlbums = await axios.get(`${apiUrl}/albums?page=1&title=${searchWord}&isActive=true`);
+
+    dispatch(setSearchAlbums(responseAlbums.data));
+
+    dispatch(setLoading(false));
+
+  } catch (error) {
+    console.log(`Erreur sur fetchSearch: ${error}`);
     dispatch(setLoading(false));
   }
 }
