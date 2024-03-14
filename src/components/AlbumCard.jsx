@@ -10,7 +10,7 @@ const AlbumCard = ({ data, index, songs, isPlaying, activeSong }) => {
   //constante qui récupère l'image de l'album
   const imgPath = `${albumUrl}/${data.imagePath}`
   //on récupère le hook dispatch
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
 
   //on redefinit des constantes pour les données de l'album
   const artistName = data?.artist?.name ?? 'artiste inconnu'
@@ -24,8 +24,8 @@ const AlbumCard = ({ data, index, songs, isPlaying, activeSong }) => {
 
   //méthode lorsqu'on met en lecture
   const handlePlayClick = (index) => {
-    dispatch(setActiveSong({songs, data, index}));
-    dispatch(setActiveAlbum({data}));
+    dispatch(setActiveSong({ songs, data, index }));
+    dispatch(setActiveAlbum({ data }));
     dispatch(playPause(true));
   }
 
@@ -40,9 +40,9 @@ const AlbumCard = ({ data, index, songs, isPlaying, activeSong }) => {
           />
         </Link>
         {/* on place notre composant playpause ici */}
-        <div className={`absolute ${activeSong?.title === songs[index].title ? 'flex' : 'hidden'} group-hover:flex right-3 bottom-5`}>
+        <div className={`absolute ${activeSong?.title === songs[index]?.title ? 'flex' : 'hidden'} group-hover:flex right-3 bottom-5`}>
           <div className='group-hover:animate-slideup2 bg-black outline-none rounded-full group-hover:duration-75 overflow-hidden'>
-            <PlayPause 
+            <PlayPause
               songs={songs}
               handlePause={handlePauseClick}
               handlePlay={() => handlePlayClick(index)}

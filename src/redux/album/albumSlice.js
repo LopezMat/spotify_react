@@ -10,7 +10,8 @@ const albumSlice = createSlice({
     albums: [], //on initialise un tableau vide pour stocker la futur liste d'albums
     loading: false,// on initialise le state loading à false pour pouvoir gérer l'attente des requetes asynchrone
     albumDetail: {}, //on initialise un objet vide pour stocker la futur liste d'albums
-    searchAlbums: [] //on initialise un tableau vide pour stocker la futur liste d'albums
+    searchAlbums: [], //on initialise un tableau vide pour stocker la futur liste d'albums
+    searchArtist: [] //on initialise un tableau vide pour stocker la futur liste d'albums
   },
   //methode qui permet de remplir les states (mise en rayon)
   reducers: {
@@ -25,11 +26,14 @@ const albumSlice = createSlice({
     },
     setSearchAlbums: (state, action) => {
       state.searchAlbums = action.payload
+    },
+    setSearchArtist: (state, action) => {
+      state.searchArtist = action.payload
     }
   }
 });
 
-export const { setAlbums, setLoading, setAlbumDetail, setSearchAlbums } = albumSlice.actions;
+export const { setAlbums, setLoading, setAlbumDetail, setSearchAlbums, setSearchArtist } = albumSlice.actions;
 
 //on crée la méthode qui permet de récupérer les données des albums de la BDD
 export const fetchAlbums = () => async dispatch => {
@@ -70,8 +74,10 @@ export const fetchSearch = (searchWord) => async dispatch => {
   try {
     dispatch(setLoading(true));
     const responseAlbums = await axios.get(`${apiUrl}/albums?page=1&title=${searchWord}&isActive=true`);
+    const responseArtist = await axios.get(`${apiUrl}/albums?page=1&artist.name=${searchWord}&isActive=true`);
 
-    dispatch(setSearchAlbums(responseAlbums.data));
+    dispatch(setSearchAlbums(responseAlbums.data))
+    dispatch(setSearchArtist(responseArtist.data))
 
     dispatch(setLoading(false));
 
@@ -79,6 +85,12 @@ export const fetchSearch = (searchWord) => async dispatch => {
     console.log(`Erreur sur fetchSearch: ${error}`);
     dispatch(setLoading(false));
   }
+}
+
+//on a une méhode pour reset la recherche
+export const fetchResetSearch = () => async dispatch => {
+  dispatch(setSearchAlbums([]));
+  dispatch(setSearchArtist([]));
 }
 
 // On exporte notre reducer
