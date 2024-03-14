@@ -1,9 +1,11 @@
 import React from 'react'
 import { albumUrl } from '../../constants/apiConstant'
 import HeaderInfo from './HeaderInfo'
+import HeaderCategorie from './HeaderCategorie'
+import { Link } from 'react-router-dom'
 
-const HeaderDetail = ({dataAlbum}) => {
-  
+const HeaderDetail = ({ dataAlbum }) => {
+
   //on récupère l'image de l'album
   const imgPath = `${albumUrl}/${dataAlbum?.imagePath}`
   return (
@@ -13,6 +15,7 @@ const HeaderDetail = ({dataAlbum}) => {
         <h1 className='text-5xl font-bold text-white my-7'>{dataAlbum?.title}</h1>
         {/* ici la barre d'infos */}
         <HeaderInfo dataAlbum={dataAlbum} />
+        <HeaderCategorie dataAlbum={dataAlbum} />
       </div>
     </div>
   )
