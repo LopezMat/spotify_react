@@ -42,10 +42,10 @@ const ToolbarDetail = ({ dataAlbum }) => {
 
   const checkFavorite = () => {
     if (userFavorite) {
-      const idArray = userFavorite.map((item) => `/api/albums/${item.id}`);
+      const idArray = userFavorite.map((item) => `/api/alba/${item.id}`);
       setListArray([...new Set(idArray)])
 
-      if (idArray.includes(`/api/albums/${albumId}`)) setIsInList(true);
+      if (idArray.includes(`/api/alba/${albumId}`)) setIsInList(true);
     }
   }
 
@@ -69,10 +69,10 @@ const ToolbarDetail = ({ dataAlbum }) => {
 
     if (isInList) {
       //supprimer l'id de l'album dans le tableau
-      updatedListArray = listArray.filter((item) => item !== `/api/albums/${albumId}`);
+      updatedListArray = listArray.filter((item) => item !== `/api/alba/${albumId}`);
     } else {
       //on ajoute l'id de l'album dans le tableau
-      updatedListArray.push(`/api/albums/${albumId}`);
+      updatedListArray.push(`/api/alba/${albumId}`);
     }
 
     //on appelle le service pour mettre a jour la liste de favorie dans la bdd
