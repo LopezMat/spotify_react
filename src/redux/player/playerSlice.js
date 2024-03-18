@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit"
 
 //on va initialiser nos state dans une constante initialState
 const initialState = {
-  currentSongs: [], //tableau de chansons
+  activeSong: {}, //chanson en cours de lecture
   currentAlbum: [], //album en cours de lecture
   currentIndex: 0, //index de la chanson en cours de lecture
+  currentSongs: [], //tableau de chansons
   isActive: false, // etat du player
   isPlaying: false, //etat de la lecture
-  activeSong: {}, //chanson en cours de lecture
 }
 
 
@@ -15,7 +15,7 @@ const initialState = {
 const playerSlice = createSlice({
   name: "player",
   initialState,
-  reducers:{
+  reducers: {
     //tout ce qu'on stock lorsqu'on active une chanson
     setActiveSong: (state, action) => {
       //stockage de la chanson en lecture dans activeSong
@@ -41,7 +41,7 @@ const playerSlice = createSlice({
       state.currentIndex = action.payload;
       state.isActive = true;
     },
-    
+
     //pour reculer la liste de lecture
     prevSong: (state, action) => {
       //on récupère la chanson dans le tableau à l'index donné
@@ -53,11 +53,12 @@ const playerSlice = createSlice({
 
     playPause: (state, action) => {
       state.isPlaying = action.payload;
-    }
+    },
+
   }
 })
 
 //export des actions
-export const {setActiveSong, setActiveAlbum, nextSong, prevSong, playPause} = playerSlice.actions;
+export const { setActiveSong, setActiveAlbum, nextSong, prevSong, playPause } = playerSlice.actions;
 //export du reducer
 export default playerSlice.reducer;

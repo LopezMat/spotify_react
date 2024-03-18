@@ -9,9 +9,10 @@ const albumSlice = createSlice({
   initialState: {
     albums: [], //on initialise un tableau vide pour stocker la futur liste d'albums
     loading: false,// on initialise le state loading à false pour pouvoir gérer l'attente des requetes asynchrone
-    albumDetail: {}, //on initialise un objet vide pour stocker la futur liste d'albums
-    searchAlbums: [], //on initialise un tableau vide pour stocker la futur liste d'albums
-    searchArtist: [] //on initialise un tableau vide pour stocker la futur liste d'albums
+    albumDetail: {},
+    searchAlbum: [],
+    searchArtist: [],
+    searchTitle: [],
   },
   //methode qui permet de remplir les states (mise en rayon)
   reducers: {
@@ -24,16 +25,19 @@ const albumSlice = createSlice({
     setAlbumDetail: (state, action) => {
       state.albumDetail = action.payload
     },
-    setSearchAlbums: (state, action) => {
-      state.searchAlbums = action.payload
+    setSearchAlbum: (state, action) => {
+      state.searchAlbum = action.payload
     },
     setSearchArtist: (state, action) => {
       state.searchArtist = action.payload
+    },
+    setSearchTitle: (state, action) => {
+      state.searchTitle = action.payload
     }
   }
 });
 
-export const { setAlbums, setLoading, setAlbumDetail, setSearchAlbums, setSearchArtist } = albumSlice.actions;
+export const { setAlbums, setLoading, setAlbumDetail, setSearchAlbum, setSearchArtist, setSearchTitle } = albumSlice.actions;
 
 //on crée la méthode qui permet de récupérer les données des albums de la BDD
 export const fetchAlbums = () => async dispatch => {
@@ -69,15 +73,17 @@ export const fetchAlbumDetail = (id) => async dispatch => {
   }
 }
 
-//on crée la méthode qui permet de rechercher des albums dans la BDD
+//on crée la méthode pour faire une rechercher d'album
 export const fetchSearch = (searchWord) => async dispatch => {
   try {
     dispatch(setLoading(true));
     const responseAlbums = await axios.get(`${apiUrl}/albums?page=1&title=${searchWord}&isActive=true`);
-    const responseArtist = await axios.get(`${apiUrl}/albums?page=1&artist.name=${searchWord}&isActive=true`);
+    const responseArtist = await axios.get(`${apiUrl}/artists?page=1&name=${searchWord}&albums.isActive=true`);
+    const responseTitle = await axios.get(`${apiUrl}/albums?page=1&songs.title=${searchWord}&isActive=true`);
 
-    dispatch(setSearchAlbums(responseAlbums.data))
+    dispatch(setSearchAlbum(responseAlbums.data))
     dispatch(setSearchArtist(responseArtist.data))
+    dispatch(setSearchTitle(responseTitle.data))
 
     dispatch(setLoading(false));
 
@@ -87,9 +93,9 @@ export const fetchSearch = (searchWord) => async dispatch => {
   }
 }
 
-//on a une méhode pour reset la recherche
+//on une méthode pour reset la recherche
 export const fetchResetSearch = () => async dispatch => {
-  dispatch(setSearchAlbums([]));
+  dispatch(setSearchAlbum([]));
   dispatch(setSearchArtist([]));
 }
 

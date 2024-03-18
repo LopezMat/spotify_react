@@ -12,23 +12,24 @@
 }
 
 /* barre de scroll */
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 10px;
   background-color: transparent;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   @apply bg-green_top;
   border-radius: 5px;
 }
 
 /* image card */
-.card-sh{
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+.card-sh {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   height: 220px;
 }
 
 /* collapse transition  */
-.ReactCollapse--collapse{
+.ReactCollapse--collapse {
   transition: height 1000ms;
 }
+

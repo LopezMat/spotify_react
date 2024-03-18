@@ -3,7 +3,7 @@ import HeaderDetail from './HeaderDetail'
 import ToolbarDetail from './ToolbarDetail'
 import ListAlbumSong from './ListAlbumSong'
 
-const DetailAlbum = ({ dataAlbum }) => {
+const DetailAlbum = ({dataAlbum}) => {
 
   return (
     <>
